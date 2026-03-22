@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="UM_BL_Estimate/UM_BL_Estimate.csproj" />
+  <Project Path="UnMurphy_Solution.AppHost/UnMurphy_Solution.AppHost.csproj" />
+  <Project Path="UnMurphy_Solution.ServiceDefaults/UnMurphy_Solution.ServiceDefaults.csproj" />
+</Solution>
