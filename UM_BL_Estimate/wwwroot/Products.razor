@@ -1,0 +1,73 @@
+﻿
+@page "/products"
+
+@using Syncfusion.Blazor.Grids
+@using UM_BL_Estimate.Services
+
+@inject ProductService ProductService
+
+<h3>Products</h3>
+
+<SfGrid DataSource="@ProductList"
+        Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })"
+        Height="350">
+
+    <GridEditSettings AllowAdding="true"
+                      AllowEditing="true"
+                      AllowDeleting="true"
+                      Mode="EditMode.Dialog">
+    </GridEditSettings>
+
+    <GridColumns>
+        <GridColumn Field=@nameof(Product.Id)
+                    HeaderText="ID"
+                    IsPrimaryKey="true"
+                    TextAlign="TextAlign.Right"
+                    Width="100">
+        </GridColumn>
+
+        <GridColumn Field=@nameof(Product.Name)
+                    HeaderText="Name"
+                    Width="150">
+        </GridColumn>
+
+        <GridColumn Field=@nameof(Product.Price)
+                    HeaderText="Price"
+                    Format="C2"
+                    Width="120">
+        </GridColumn>
+
+        <GridColumn Field=@nameof(Product.Stock)
+                    HeaderText="Stock"
+                    Width="120">
+        </GridColumn>
+    </GridColumns>
+
+    <GridEvents TValue="Product"
+                OnActionBegin="ActionBeginHandler">
+    </GridEvents>
+
+</SfGrid>
+
+@code {
+    public List<Product> ProductList { get; set; } =  new();
+
+    protected override void OnInitialized()
+    {
+        ProductList = ProductService.GetAll();
+    }
+
+    private void ActionBeginHandler(ActionEventArgs<Product> args)
+    {
+        if (args.RequestType == Syncfusion.Blazor.Grids.Action.Save)
+        {
+            if (args.Action == "Edit")
+               ProductService.Update(args.Data);
+        }
+
+        if (args.RequestType == Syncfusion.Blazor.Grids.Action.Delete)
+        {
+                ProductService.Delete(args.Data);
+        }
+    }
+}
